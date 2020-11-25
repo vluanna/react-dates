@@ -73,6 +73,7 @@ const propTypes = forbidExtraProps({
   daySize: nonNegativeInteger,
   isRTL: PropTypes.bool,
   verticalHeight: nonNegativeInteger,
+  calendarSizeRatio: PropTypes.number,
   noBorder: PropTypes.bool,
   transitionDuration: nonNegativeInteger,
   verticalBorderSpacing: nonNegativeInteger,
@@ -143,6 +144,7 @@ export const defaultProps = {
   daySize: DAY_SIZE,
   isRTL: false,
   verticalHeight: null,
+  calendarSizeRatio: 1.75,
   noBorder: false,
   transitionDuration: undefined,
   verticalBorderSpacing: undefined,
@@ -1055,6 +1057,7 @@ class DayPicker extends React.PureComponent {
       theme,
       phrases,
       verticalHeight,
+      calendarSizeRatio=1.75,
       dayAriaLabelFormat,
       noBorder,
       transitionDuration,
@@ -1080,7 +1083,7 @@ class DayPicker extends React.PureComponent {
     } else if (this.isVertical() && !verticalScrollable && !withPortal) {
       // If the user doesn't set a desired height,
       // we default back to this kind of made-up value that generally looks good
-      height = verticalHeight || 1.75 * calendarMonthWidth;
+      height = verticalHeight || calendarSizeRatio * calendarMonthWidth;
     }
 
     const isCalendarMonthGridAnimating = monthTransition !== null;

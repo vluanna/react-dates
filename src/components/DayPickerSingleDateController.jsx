@@ -128,6 +128,7 @@ const defaultProps = {
   firstDayOfWeek: null,
   daySize: DAY_SIZE,
   verticalHeight: null,
+  calendarSizeRatio: 1.75,
   noBorder: false,
   verticalBorderSpacing: undefined,
   transitionDuration: undefined,
@@ -674,6 +675,7 @@ export default class DayPickerSingleDateController extends React.PureComponent {
       showKeyboardShortcuts,
       weekDayFormat,
       verticalHeight,
+      calendarSizeRatio,
       noBorder,
       transitionDuration,
       verticalBorderSpacing,
@@ -739,6 +741,7 @@ export default class DayPickerSingleDateController extends React.PureComponent {
         weekDayFormat={weekDayFormat}
         dayAriaLabelFormat={dayAriaLabelFormat}
         verticalHeight={verticalHeight}
+        calendarSizeRatio={calendarSizeRatio}
         noBorder={noBorder}
         transitionDuration={transitionDuration}
         verticalBorderSpacing={verticalBorderSpacing}
