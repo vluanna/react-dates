@@ -3,15 +3,15 @@ import { BLOCKED_MODIFIER } from '../constants';
 
 function isSelected(modifiers) {
   return modifiers.has('selected')
-  || modifiers.has('selected-span')
-  || modifiers.has('selected-start')
-  || modifiers.has('selected-end');
+    || modifiers.has('selected-span')
+    || modifiers.has('selected-start')
+    || modifiers.has('selected-end');
 }
 
 function shouldUseDefaultCursor(modifiers) {
   return modifiers.has('blocked-minimum-nights')
-  || modifiers.has('blocked-calendar')
-  || modifiers.has('blocked-out-of-range');
+    || modifiers.has('blocked-calendar')
+    || modifiers.has('blocked-out-of-range');
 }
 
 function isHoveredSpan(modifiers) {
@@ -45,7 +45,7 @@ function getAriaLabel(phrases, modifiers, day, ariaLabelFormat) {
   return getPhrase(chooseAvailableDate, formattedDate);
 }
 
-export default function getCalendarDaySettings(day, ariaLabelFormat, daySize, modifiers, phrases) {
+export default function getCalendarDaySettings(day, ariaLabelFormat, daySize, modifiers, phrases, dayStyleCutomizer) {
   return {
     ariaLabel: getAriaLabel(phrases, modifiers, day, ariaLabelFormat),
     hoveredSpan: isHoveredSpan(modifiers),
@@ -53,7 +53,7 @@ export default function getCalendarDaySettings(day, ariaLabelFormat, daySize, mo
     selected: isSelected(modifiers),
     useDefaultCursor: shouldUseDefaultCursor(modifiers),
 
-    daySizeStyles: {
+    daySizeStyles: dayStyleCutomizer ? dayStyleCutomizer(daySize) : {
       width: daySize,
       height: daySize - 1,
     },

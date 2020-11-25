@@ -1,13 +1,13 @@
 {
-  "name": "react-dates",
-  "version": "21.8.0",
+  "name": "@cloudhms/react-dates",
+  "version": "21.8.1",
   "description": "A responsive and accessible date range picker component built with React",
   "main": "index.js",
   "scripts": {
     "prebuild": "npm run clean",
     "build": "npm run build:cjs && npm run build:esm && npm run build:css -- --optimize ",
-    "build:cjs": "BABEL_ENV=cjs babel src/ -d lib/",
-    "build:esm": "BABEL_ENV=esm babel src/ -d esm/",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel src/ -d lib/",
+    "build:esm": "cross-env BABEL_ENV=esm babel src/ -d esm/",
     "prebuild:css": "rimraf lib/css && mkdirp lib/css",
     "build:css": "node scripts/buildCSS.js",
     "clean": "rimraf lib esm",
@@ -36,21 +36,20 @@
     "preversion": "npm run test && npm run check-changelog && npm run check-only-changelog-changed",
     "postversion": "git commit package.json CHANGELOG.md -m \"Version $npm_package_version\" && npm run tag && git push && git push --tags && npm publish --registry=https://registry.npmjs.org/",
     "prepublish": "in-publish && safe-publish-latest && npm run build || not-in-publish",
-    "prepare": "npm install && npm run build",
-    "postpublish": "[ \"${npm_config_tag:-latest}\" != latest ] || npm run gh-pages",
+    "postpublish": "",
     "check-changelog": "expr $(git status --porcelain 2>/dev/null| grep \"^\\s*M.*CHANGELOG.md\" | wc -l) >/dev/null || (echo 'Please edit CHANGELOG.md' && exit 1)",
     "check-only-changelog-changed": "(expr $(git status --porcelain 2>/dev/null| grep -v \"CHANGELOG.md\" | wc -l) >/dev/null && echo 'Only CHANGELOG.md may have uncommitted changes' && exit 1) || exit 0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/airbnb/react-dates.git"
+    "url": "git+https://github.com/vluanna/react-dates.git"
   },
   "author": "Maja Wichrowska <maja.wichrowska@airbnb.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/airbnb/react-dates/issues"
+    "url": "https://github.com/vluanna/react-dates/issues"
   },
-  "homepage": "https://github.com/airbnb/react-dates#readme",
+  "homepage": "https://github.com/vluanna/react-dates#readme",
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
@@ -148,5 +147,10 @@
   },
   "engines": {
     "node": ">=0.10"
+  },
+  "directories": {
+    "example": "examples",
+    "lib": "lib",
+    "test": "test"
   }
 }

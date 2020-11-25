@@ -17,6 +17,7 @@ const propTypes = forbidExtraProps({
   ...withStylesPropTypes,
   day: momentPropTypes.momentObj,
   daySize: nonNegativeInteger,
+  dayStyleCutomizer: PropTypes.func,
   isOutsideDay: PropTypes.bool,
   modifiers: ModifiersShape,
   isFocused: PropTypes.bool,
@@ -34,6 +35,7 @@ const propTypes = forbidExtraProps({
 const defaultProps = {
   day: moment(),
   daySize: DAY_SIZE,
+  dayStyleCutomizer: null,
   isOutsideDay: false,
   modifiers: new Set(),
   isFocused: false,
@@ -101,6 +103,7 @@ class CalendarDay extends React.PureComponent {
       day,
       ariaLabelFormat,
       daySize,
+      dayStyleCutomizer,
       isOutsideDay,
       modifiers,
       renderDayContents,
@@ -118,7 +121,7 @@ class CalendarDay extends React.PureComponent {
       hoveredSpan,
       isOutsideRange,
       ariaLabel,
-    } = getCalendarDaySettings(day, ariaLabelFormat, daySize, modifiers, phrases);
+    } = getCalendarDaySettings(day, ariaLabelFormat, daySize, modifiers, phrases, dayStyleCutomizer);
 
     return (
       <td
