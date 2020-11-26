@@ -71,6 +71,7 @@ const propTypes = forbidExtraProps({
   calendarInfoPosition: CalendarInfoPositionShape,
   hideKeyboardShortcutsPanel: PropTypes.bool,
   daySize: nonNegativeInteger,
+  dayStyleCutomizer: PropTypes.func,
   isRTL: PropTypes.bool,
   verticalHeight: nonNegativeInteger,
   calendarSizeRatio: PropTypes.number,
@@ -134,7 +135,7 @@ export const defaultProps = {
   numberOfMonths: 2,
   orientation: HORIZONTAL_ORIENTATION,
   withPortal: false,
-  onOutsideClick() {},
+  onOutsideClick() { },
   hidden: false,
   initialVisibleMonth: () => moment(),
   firstDayOfWeek: null,
@@ -142,6 +143,7 @@ export const defaultProps = {
   calendarInfoPosition: INFO_POSITION_BOTTOM,
   hideKeyboardShortcutsPanel: false,
   daySize: DAY_SIZE,
+  dayStyleCutomizer: (size) => ({ width: size, height: size - 1 }),
   isRTL: false,
   verticalHeight: null,
   calendarSizeRatio: 1.75,
@@ -164,12 +166,12 @@ export const defaultProps = {
   noNavButtons: false,
   noNavNextButton: false,
   noNavPrevButton: false,
-  onPrevMonthClick() {},
-  onNextMonthClick() {},
-  onMonthChange() {},
-  onYearChange() {},
-  onGetNextScrollableMonths() {},
-  onGetPrevScrollableMonths() {},
+  onPrevMonthClick() { },
+  onNextMonthClick() { },
+  onMonthChange() { },
+  onYearChange() { },
+  onGetNextScrollableMonths() { },
+  onGetPrevScrollableMonths() { },
 
   // month props
   renderMonthText: null,
@@ -180,17 +182,17 @@ export const defaultProps = {
   modifiers: {},
   renderCalendarDay: undefined,
   renderDayContents: null,
-  onDayClick() {},
-  onDayMouseEnter() {},
-  onDayMouseLeave() {},
+  onDayClick() { },
+  onDayMouseEnter() { },
+  onDayMouseLeave() { },
 
   // accessibility props
   isFocused: false,
   getFirstFocusableDay: null,
-  onBlur() {},
+  onBlur() { },
   showKeyboardShortcuts: false,
-  onTab() {},
-  onShiftTab() {},
+  onTab() { },
+  onShiftTab() { },
 
   // internationalization
   monthFormat: 'MMMM YYYY',
@@ -227,7 +229,7 @@ class DayPicker extends React.PureComponent {
       focusedDate: (!props.hidden || props.isFocused) ? focusedDate : null,
       nextFocusedDate: null,
       showKeyboardShortcuts: props.showKeyboardShortcuts,
-      onKeyboardShortcutsPanelClose() {},
+      onKeyboardShortcutsPanelClose() { },
       isTouchDevice: isTouchDevice(),
       withMouseInteractions: true,
       calendarInfoWidth: 0,
@@ -342,7 +344,7 @@ class DayPicker extends React.PureComponent {
     }
 
     if (renderMonthText !== null && prevRenderMonthText !== null
-        && renderMonthText(currentMonth) !== prevRenderMonthText(currentMonth)) {
+      && renderMonthText(currentMonth) !== prevRenderMonthText(currentMonth)) {
       this.setState({
         monthTitleHeight: null,
       });
@@ -398,7 +400,7 @@ class DayPicker extends React.PureComponent {
       && (orientation !== prevProps.orientation || daySize !== prevProps.daySize)
     ) {
       const visibleCalendarWeeks = this.calendarMonthWeeks.slice(1, numberOfMonths + 1);
-      const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (daySize - 1);
+      const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (dayStyleCutomizer(daySize).height);
       const newMonthHeight = monthTitleHeight + calendarMonthWeeksHeight + 1;
       this.adjustDayPickerHeight(newMonthHeight);
     }
@@ -552,7 +554,7 @@ class DayPicker extends React.PureComponent {
 
     let translationValue;
     if (this.isVertical()) {
-      const calendarMonthWeeksHeight = this.calendarMonthWeeks[0] * (daySize - 1);
+      const calendarMonthWeeksHeight = this.calendarMonthWeeks[0] * (this.props.dayStyleCutomizer(daySize).height);
       translationValue = monthTitleHeight + calendarMonthWeeksHeight + 1;
     } else if (this.isHorizontal()) {
       translationValue = calendarMonthWidth;
@@ -561,7 +563,7 @@ class DayPicker extends React.PureComponent {
       }
 
       const visibleCalendarWeeks = this.calendarMonthWeeks.slice(0, numberOfMonths);
-      const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (daySize - 1);
+      const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (this.props.dayStyleCutomizer(daySize).height);
       const newMonthHeight = monthTitleHeight + calendarMonthWeeksHeight + 1;
       this.adjustDayPickerHeight(newMonthHeight);
     }
@@ -617,7 +619,7 @@ class DayPicker extends React.PureComponent {
 
     if (this.isVertical()) {
       const firstVisibleMonthWeeks = this.calendarMonthWeeks[1];
-      const calendarMonthWeeksHeight = firstVisibleMonthWeeks * (daySize - 1);
+      const calendarMonthWeeksHeight = firstVisibleMonthWeeks * (this.props.dayStyleCutomizer(daySize).height);
       translationValue = -(monthTitleHeight + calendarMonthWeeksHeight + 1);
     }
 
@@ -628,7 +630,7 @@ class DayPicker extends React.PureComponent {
       }
 
       const visibleCalendarWeeks = this.calendarMonthWeeks.slice(2, numberOfMonths + 2);
-      const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (daySize - 1);
+      const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (this.props.dayStyleCutomizer(daySize).height);
       const newMonthHeight = monthTitleHeight + calendarMonthWeeksHeight + 1;
       this.adjustDayPickerHeight(newMonthHeight);
     }
@@ -879,7 +881,7 @@ class DayPicker extends React.PureComponent {
     const { monthTitleHeight } = this.state;
 
     const visibleCalendarWeeks = this.calendarMonthWeeks.slice(1, numberOfMonths + 1);
-    const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (daySize - 1);
+    const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (this.props.dayStyleCutomizer(daySize).height);
     const newMonthHeight = monthTitleHeight + calendarMonthWeeksHeight + 1;
 
     if (this.isHorizontal()) {
@@ -1051,13 +1053,14 @@ class DayPicker extends React.PureComponent {
       onOutsideClick,
       monthFormat,
       daySize,
+      dayStyleCutomizer,
       isFocused,
       isRTL,
       styles,
       theme,
       phrases,
       verticalHeight,
-      calendarSizeRatio=1.75,
+      calendarSizeRatio,
       dayAriaLabelFormat,
       noBorder,
       transitionDuration,
@@ -1219,6 +1222,7 @@ class DayPicker extends React.PureComponent {
                   onMonthTransitionEnd={this.updateStateAfterMonthTransition}
                   monthFormat={monthFormat}
                   daySize={daySize}
+                  dayStyleCutomizer={dayStyleCutomizer}
                   firstDayOfWeek={firstDayOfWeek}
                   isFocused={shouldFocusDate}
                   focusedDate={focusedDate}

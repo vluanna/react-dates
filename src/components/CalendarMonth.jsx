@@ -37,6 +37,7 @@ const propTypes = forbidExtraProps({
   modifiers: PropTypes.objectOf(ModifiersShape),
   orientation: ScrollableOrientationShape,
   daySize: nonNegativeInteger,
+  dayStyleCutomizer: PropTypes.func,
   onDayClick: PropTypes.func,
   onDayMouseEnter: PropTypes.func,
   onDayMouseLeave: PropTypes.func,
@@ -67,11 +68,12 @@ const defaultProps = {
   modifiers: {},
   orientation: HORIZONTAL_ORIENTATION,
   daySize: DAY_SIZE,
-  onDayClick() {},
-  onDayMouseEnter() {},
-  onDayMouseLeave() {},
-  onMonthSelect() {},
-  onYearSelect() {},
+  dayStyleCutomizer: (size) => ({ width: size, height: size - 1 }),
+  onDayClick() { },
+  onDayMouseEnter() { },
+  onDayMouseLeave() { },
+  onMonthSelect() { },
+  onYearSelect() { },
   renderMonthText: null,
   renderCalendarDay: (props) => (<CalendarDay {...props} />),
   renderDayContents: null,
@@ -153,6 +155,7 @@ class CalendarMonth extends React.PureComponent {
     const {
       dayAriaLabelFormat,
       daySize,
+      dayStyleCutomizer,
       focusedDate,
       horizontalMonthPadding,
       isFocused,
@@ -203,10 +206,10 @@ class CalendarMonth extends React.PureComponent {
               isVisible,
             })
           ) : (
-            <strong>
-              {monthTitle}
-            </strong>
-          )}
+              <strong>
+                {monthTitle}
+              </strong>
+            )}
         </div>
 
         <table
@@ -224,6 +227,7 @@ class CalendarMonth extends React.PureComponent {
                   key: dayOfWeek,
                   day,
                   daySize,
+                  dayStyleCutomizer,
                   isOutsideDay: !day || day.month() !== month.month(),
                   tabIndex: isVisible && isSameDay(day, focusedDate) ? 0 : -1,
                   isFocused,

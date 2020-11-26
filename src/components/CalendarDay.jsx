@@ -35,7 +35,7 @@ const propTypes = forbidExtraProps({
 const defaultProps = {
   day: moment(),
   daySize: DAY_SIZE,
-  dayStyleCutomizer: null,
+  dayStyleCutomizer: (size) => ({ width: size, height: size - 1 }),
   isOutsideDay: false,
   modifiers: new Set(),
   isFocused: false,

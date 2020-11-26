@@ -52,6 +52,7 @@ const propTypes = forbidExtraProps({
   translationValue: PropTypes.number,
   renderMonthElement: mutuallyExclusiveProps(PropTypes.func, 'renderMonthText', 'renderMonthElement'),
   daySize: nonNegativeInteger,
+  dayStyleCutomizer: PropTypes.func,
   focusedDate: momentPropTypes.momentObj, // indicates focusable day
   isFocused: PropTypes.bool, // indicates whether or not to move focus to focusable day
   firstDayOfWeek: DayOfWeekShape,
@@ -75,18 +76,19 @@ const defaultProps = {
   numberOfMonths: 1,
   modifiers: {},
   orientation: HORIZONTAL_ORIENTATION,
-  onDayClick() {},
-  onDayMouseEnter() {},
-  onDayMouseLeave() {},
-  onMonthChange() {},
-  onYearChange() {},
-  onMonthTransitionEnd() {},
+  onDayClick() { },
+  onDayMouseEnter() { },
+  onDayMouseLeave() { },
+  onMonthChange() { },
+  onYearChange() { },
+  onMonthTransitionEnd() { },
   renderMonthText: null,
   renderCalendarDay: undefined,
   renderDayContents: null,
   translationValue: null,
   renderMonthElement: null,
   daySize: DAY_SIZE,
+  dayStyleCutomizer: (size) => ({ width: size, height: size - 1 }),
   focusedDate: null,
   isFocused: false,
   firstDayOfWeek: null,
@@ -246,6 +248,7 @@ class CalendarMonthGrid extends React.PureComponent {
       orientation,
       translationValue,
       daySize,
+      dayStyleCutomizer,
       onDayMouseEnter,
       onDayMouseLeave,
       onDayClick,
@@ -347,6 +350,7 @@ class CalendarMonthGrid extends React.PureComponent {
                 renderMonthElement={renderMonthElement}
                 firstDayOfWeek={firstDayOfWeek}
                 daySize={daySize}
+                dayStyleCutomizer={dayStyleCutomizer}
                 focusedDate={isVisible ? focusedDate : null}
                 isFocused={isFocused}
                 phrases={phrases}
