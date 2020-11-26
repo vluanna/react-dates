@@ -386,7 +386,7 @@ class DayPicker extends React.PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const {
-      orientation, daySize, isFocused, numberOfMonths,
+      orientation, daySize, isFocused, numberOfMonths, dayStyleCutomizer
     } = this.props;
     const {
       currentMonth,
@@ -549,12 +549,12 @@ class DayPicker extends React.PureComponent {
   }
 
   onPrevMonthTransition(nextFocusedDate) {
-    const { daySize, isRTL, numberOfMonths } = this.props;
+    const { daySize, isRTL, numberOfMonths, dayStyleCutomizer } = this.props;
     const { calendarMonthWidth, monthTitleHeight } = this.state;
 
     let translationValue;
     if (this.isVertical()) {
-      const calendarMonthWeeksHeight = this.calendarMonthWeeks[0] * (this.props.dayStyleCutomizer(daySize).height);
+      const calendarMonthWeeksHeight = this.calendarMonthWeeks[0] * (dayStyleCutomizer(daySize).height);
       translationValue = monthTitleHeight + calendarMonthWeeksHeight + 1;
     } else if (this.isHorizontal()) {
       translationValue = calendarMonthWidth;
@@ -563,7 +563,7 @@ class DayPicker extends React.PureComponent {
       }
 
       const visibleCalendarWeeks = this.calendarMonthWeeks.slice(0, numberOfMonths);
-      const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (this.props.dayStyleCutomizer(daySize).height);
+      const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (dayStyleCutomizer(daySize).height);
       const newMonthHeight = monthTitleHeight + calendarMonthWeeksHeight + 1;
       this.adjustDayPickerHeight(newMonthHeight);
     }
@@ -612,14 +612,14 @@ class DayPicker extends React.PureComponent {
   }
 
   onNextMonthTransition(nextFocusedDate) {
-    const { isRTL, numberOfMonths, daySize } = this.props;
+    const { isRTL, numberOfMonths, daySize, dayStyleCutomizer } = this.props;
     const { calendarMonthWidth, monthTitleHeight } = this.state;
 
     let translationValue;
 
     if (this.isVertical()) {
       const firstVisibleMonthWeeks = this.calendarMonthWeeks[1];
-      const calendarMonthWeeksHeight = firstVisibleMonthWeeks * (this.props.dayStyleCutomizer(daySize).height);
+      const calendarMonthWeeksHeight = firstVisibleMonthWeeks * (dayStyleCutomizer(daySize).height);
       translationValue = -(monthTitleHeight + calendarMonthWeeksHeight + 1);
     }
 
@@ -630,7 +630,7 @@ class DayPicker extends React.PureComponent {
       }
 
       const visibleCalendarWeeks = this.calendarMonthWeeks.slice(2, numberOfMonths + 2);
-      const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (this.props.dayStyleCutomizer(daySize).height);
+      const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (dayStyleCutomizer(daySize).height);
       const newMonthHeight = monthTitleHeight + calendarMonthWeeksHeight + 1;
       this.adjustDayPickerHeight(newMonthHeight);
     }
@@ -877,11 +877,11 @@ class DayPicker extends React.PureComponent {
   }
 
   calculateAndSetDayPickerHeight() {
-    const { daySize, numberOfMonths } = this.props;
+    const { daySize, numberOfMonths, dayStyleCutomizer } = this.props;
     const { monthTitleHeight } = this.state;
 
     const visibleCalendarWeeks = this.calendarMonthWeeks.slice(1, numberOfMonths + 1);
-    const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (this.props.dayStyleCutomizer(daySize).height);
+    const calendarMonthWeeksHeight = Math.max(0, ...visibleCalendarWeeks) * (dayStyleCutomizer(daySize).height);
     const newMonthHeight = monthTitleHeight + calendarMonthWeeksHeight + 1;
 
     if (this.isHorizontal()) {
