@@ -61,6 +61,7 @@ const propTypes = forbidExtraProps({
   firstDayOfWeek: DayOfWeekShape,
   hideKeyboardShortcutsPanel: PropTypes.bool,
   daySize: nonNegativeInteger,
+  dayStyleCutomizer: PropTypes.func,
   verticalHeight: nonNegativeInteger,
   calendarSizeRatio: PropTypes.number,
   noBorder: PropTypes.bool,
@@ -128,6 +129,7 @@ const defaultProps = {
   initialVisibleMonth: null,
   firstDayOfWeek: null,
   daySize: DAY_SIZE,
+  dayStyleCutomizer: (size) => ({ width: size, height: size - 1 }),
   verticalHeight: null,
   calendarSizeRatio: 1.75,
   noBorder: false,
@@ -662,6 +664,7 @@ export default class DayPickerSingleDateController extends React.PureComponent {
       enableOutsideDays,
       hideKeyboardShortcutsPanel,
       daySize,
+      dayStyleCutomizer,
       firstDayOfWeek,
       renderCalendarDay,
       renderDayContents,
@@ -737,6 +740,7 @@ export default class DayPickerSingleDateController extends React.PureComponent {
         onShiftTab={onShiftTab}
         phrases={phrases}
         daySize={daySize}
+        dayStyleCutomizer={dayStyleCutomizer}
         isRTL={isRTL}
         showKeyboardShortcuts={showKeyboardShortcuts}
         weekDayFormat={weekDayFormat}
